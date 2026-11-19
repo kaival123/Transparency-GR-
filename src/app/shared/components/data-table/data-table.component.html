@@ -1,0 +1,112 @@
+<p-table
+  #dt
+  [value]="loading() ? $any(skeletonRows()) : rows()"
+  [columns]="visibleColumns()"
+  [dataKey]="dataKey()"
+  [paginator]="true"
+  [rows]="pageSize()"
+  [rowsPerPageOptions]="compact() ? undefined : [10, 25, 50]"
+  [pageLinks]="compact() ? 1 : 5"
+  [showFirstLastIcon]="!compact()"
+  [lazy]="lazy()"
+  [totalRecords]="lazy() ? totalRecords() : rows().length"
+  [first]="first()"
+  [globalFilterFields]="globalFields()"
+  [showCurrentPageReport]="true"
+  [currentPageReportTemplate]="pageReport()"
+  [paginatorLocale]="i18n.locale()"
+  [tableStyle]="compact() ? undefined : { 'min-width': '40rem' }"
+  [scrollable]="scrollBody()"
+  [scrollHeight]="scrollBody() ? scrollHeight : undefined"
+  [class.stacked]="compact()"
+  [attr.aria-busy]="loading()"
+  [ariaLabel]="ariaLabel() || t('table.default')"
+  stripedRows
+  (onPage)="onPage($event)"
+  (onFilter)="onFilter($event)"
+  (onSort)="clientFirstReset()">
+
+  <ng-template #caption>
+    <div class="toolbar">
+      <div class="toolbar-left">
+        @if (heading()) { <span class="caption">{{ heading() }}</span> }
+        <ng-content select="[tableSearch]" />
+        @if (globalSearch() && !lazy()) {
+          <p-iconfield>
+            <p-inputicon class="pi pi-search" />
+            <input pInputText type="search" [placeholder]="t('table.quickSearch')" [attr.aria-label]="t('table.quickSearchAria')"
+                   (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+          </p-iconfield>
+        }
+      </div>
+      <div class="toolbar-right">
+        <ng-content select="[tableActions]" />
+        @if (columnPicker() && hideableColumns().length > 1) {
+          <p-multiselect
+            [options]="hideableColumns()"
+            optionLabel="header"
+            optionValue="field"
+            [ngModel]="visibleFields()"
+            (ngModelChange)="onColumnsChange($event)"
+            [showHeader]="false"
+            [selectedItemsLabel]="columnsLabel()"
+            [maxSelectedLabels]="0"
+            [placeholder]="t('table.columns')"
+            dropdownIcon="pi pi-sliders-h"
+            [ariaLabel]="t('table.chooseColumns')"
+            appendTo="body" />
+        }
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #header let-columns>
+    <tr>
+      @for (col of columns; track col.field) {
+        @if (col.sortable !== false && !lazy()) {
+          <th [pSortableColumn]="col.field" scope="col" [class.num]="col.type === 'number' || col.type === 'currency'">{{ col.header }} <p-sort-icon [field]="col.field" /></th>
+        } @else {
+          <th scope="col" [class.num]="col.type === 'number' || col.type === 'currency'">{{ col.header }}</th>
+        }
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-row let-columns="columns">
+    @if (loading()) {
+      <tr>
+        @for (col of columns; track col.field) { <td [attr.data-label]="col.header"><p-skeleton width="60%" /></td> }
+      </tr>
+    } @else {
+      <tr [class.clickable]="!!rowActionLabel()"
+          [attr.tabindex]="rowActionLabel() ? 0 : null"
+          [attr.aria-label]="rowActionLabel() ? rowActionLabel() : null"
+          (click)="rowActionLabel() && rowClick.emit(row)"
+          (keydown.enter)="rowActionLabel() && rowClick.emit(row)">
+        @for (col of columns; track col.field) {
+          <td [class.num]="col.type === 'number' || col.type === 'currency'" [attr.data-label]="col.header">
+            @if (col.type === 'status' && !isEmpty(row, col)) {
+              <app-status-badge [status]="display(row, col)" />
+            } @else {
+              <span class="cell">
+                <span [class.text-muted]="isEmpty(row, col)">{{ display(row, col) }}</span>
+                @if (isMasked(row, col)) {
+                  <i class="pi pi-lock masked" [pTooltip]="t('table.masked')" tabindex="0"
+                     [attr.aria-label]="t('table.masked')"></i>
+                }
+              </span>
+            }
+          </td>
+        }
+      </tr>
+    }
+  </ng-template>
+
+  <ng-template #emptymessage let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length">
+        <app-empty-state [title]="emptyTitle() || t('state.noRecords')" [message]="emptyMessage() || t('state.emptyHint')" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

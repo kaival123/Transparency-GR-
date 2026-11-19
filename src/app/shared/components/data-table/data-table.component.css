@@ -1,0 +1,98 @@
+:host { display: block; min-width: 0; }
+
+/* Compact spacing: toolbar sits flush with the card edge; cells are tighter than PrimeNG's defaults. */
+:host ::ng-deep .p-datatable-header { padding: 0 0 0.75rem; border: 0; background: transparent; }
+:host ::ng-deep .p-datatable-thead > tr > th { padding: 0.5rem 0.75rem; }
+:host ::ng-deep .p-datatable-tbody > tr > td { padding: 0.5rem 0.75rem; }
+:host ::ng-deep .p-datatable-paginator-bottom { border: 0; }
+
+/* Table surfaces follow the (theme-tinted) card instead of PrimeNG's plain white. */
+:host ::ng-deep :is(.p-datatable-header, .p-datatable-thead > tr > th, .p-datatable-tbody > tr, .p-paginator) { background: transparent; }
+:host ::ng-deep .p-datatable-striped .p-datatable-tbody > tr.p-row-odd { background: color-mix(in srgb, var(--p-primary-color) 5%, transparent); }
+:host ::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th { background: var(--app-card); }
+:host ::ng-deep :is(.p-datatable-thead > tr > th, .p-datatable-tbody > tr > td) { border-color: var(--app-border); }
+
+/* Desktop/tablet: one line per cell; the table scrolls sideways (only when it's wider than the card). */
+:host ::ng-deep .p-datatable-table-container { overflow-x: auto; }
+:host ::ng-deep p-table:not(.stacked) :is(.p-datatable-thead > tr > th, .p-datatable-tbody > tr > td) { white-space: nowrap; }
+:host ::ng-deep .p-paginator { padding: 0.5rem 0 0; }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  /* Top-aligned so controls line up with the search box, not with the box + its hint text below. */
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.caption { font-weight: 600; margin-right: 0.5rem; }
+
+/* Every toolbar control (search, Excel/PDF, Columns) is the same height, so the row lines up. */
+.toolbar ::ng-deep :is(input.p-inputtext, .p-multiselect, .p-button) { box-sizing: border-box; height: 2.25rem; }
+.toolbar ::ng-deep .p-multiselect { align-items: center; }
+
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.cell { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+tr.clickable { cursor: pointer; transition: background var(--app-transition); }
+tr.clickable:hover td { background: color-mix(in srgb, var(--p-primary-color) 6%, transparent); }
+tr.clickable:focus-visible { outline: 2px solid var(--p-primary-color); outline-offset: -2px; }
+
+.masked { font-size: 0.75rem; color: var(--app-muted); }
+
+/* ---------- Phones (≤ 640px): each row becomes a labelled card ---------- */
+@media (max-width: 640px) {
+  .toolbar-left, .toolbar-right { width: 100%; }
+  .toolbar-left p-iconfield, .toolbar-left input { width: 100%; }
+  .toolbar-right > * { flex: 1 1 auto; }
+}
+
+.stacked ::ng-deep .p-datatable-thead { display: none; }
+
+.stacked ::ng-deep .p-datatable-table,
+.stacked ::ng-deep .p-datatable-tbody { display: block; width: 100%; }
+
+.stacked ::ng-deep .p-datatable-header { padding-inline: 0; }
+
+.stacked tr {
+  display: block;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.stacked ::ng-deep .p-datatable-tbody > tr > td { padding: 0.3rem 0.25rem; }
+
+.stacked td {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.3rem 0.25rem;
+  border: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.stacked td[data-label]::before {
+  content: attr(data-label);
+  flex: 0 0 42%;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--app-muted);
+}
+
+/* First column (the row's title) reads as the card heading. */
+.stacked td[data-label]:first-child { font-weight: 600; }
+
+.stacked td:not([data-label]) { display: block; text-align: center; }

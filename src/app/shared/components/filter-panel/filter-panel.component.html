@@ -1,0 +1,67 @@
+<section class="app-card panel" aria-labelledby="filters-heading">
+  <div class="head">
+    <button type="button" class="toggle" (click)="expanded.set(!expanded())"
+            [attr.aria-expanded]="expanded()" aria-controls="filter-fields">
+      <i class="pi pi-filter" aria-hidden="true"></i>
+      <h2 id="filters-heading">{{ t('filters.title') }}</h2>
+      @if (activeCount()) {
+        <p-badge [value]="i18n.number(activeCount())" severity="contrast" [attr.aria-label]="t('filters.activeCount', { count: activeCount() })" />
+      }
+      <i class="pi chevron" [class.pi-chevron-up]="expanded()" [class.pi-chevron-down]="!expanded()" aria-hidden="true"></i>
+    </button>
+    <div class="head-actions">
+      <p-button [label]="t('filters.share')" icon="pi pi-link" [text]="true" size="small" (onClick)="share()"
+                [ariaLabel]="t('filters.shareAria')" />
+      <p-button [label]="t('filters.reset')" icon="pi pi-filter-slash" [text]="true" severity="secondary" size="small"
+                [disabled]="!activeCount()" (onClick)="reset()" />
+    </div>
+  </div>
+
+  @if (expanded()) {
+    <div id="filter-fields" class="fields app-fade-in">
+      @for (def of panelDefinitions(); track def.key) {
+        @if (isVisible(def)) {
+          <div class="field">
+            <label [for]="'f-' + def.key">{{ label(def) }}</label>
+
+            @switch (def.type) {
+              @case ('multi') {
+                <p-multiselect
+                  [inputId]="'f-' + def.key"
+                  [options]="options[def.key]() ?? []"
+                  [loading]="options[def.key]() === undefined"
+                  optionLabel="label" optionValue="value"
+                  [ngModel]="state()[def.key]"
+                  (ngModelChange)="setValue(def.key, $event)"
+                  [placeholder]="placeholder(def)"
+                  [maxSelectedLabels]="1"
+                  [selectedItemsLabel]="selectedLabel(def)"
+                  [showClear]="true"
+                  [filter]="(options[def.key]() ?? []).length > 6"
+                  display="comma"
+                  [fluid]="true"
+                  appendTo="body" />
+              }
+              @default {
+                <p-select
+                  [inputId]="'f-' + def.key"
+                  [options]="options[def.key]() ?? []"
+                  [loading]="options[def.key]() === undefined && !isDisabled(def)"
+                  optionLabel="label" optionValue="value"
+                  [ngModel]="state()[def.key]"
+                  (ngModelChange)="setValue(def.key, $event)"
+                  [placeholder]="placeholder(def)"
+                  [disabled]="isDisabled(def)"
+                  [filter]="def.type === 'searchable' || (options[def.key]() ?? []).length > 8"
+                  filterBy="label"
+                  [showClear]="true"
+                  [fluid]="true"
+                  appendTo="body" />
+              }
+            }
+          </div>
+        }
+      }
+    </div>
+  }
+</section>

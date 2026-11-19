@@ -1,1 +1,122 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'primeicons/primeicons.css';
+
+/* ---------- Design tokens (layered on PrimeNG's --p-* tokens, so dark mode follows automatically) ---------- */
+:root {
+  /* Inter for Latin; Noto Sans Devanagari (then OS fonts) for मराठी glyphs. */
+  --app-font: 'Inter', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Every background follows the selected theme colour: header/sidebar strongest, page medium, cards faint. */
+  --app-bg: color-mix(in srgb, var(--p-primary-color) 12%, var(--p-surface-50));
+  --app-header-bg: color-mix(in srgb, var(--p-primary-color) 22%, var(--p-surface-0));
+  /* Header / sidebar dividers in the theme colour (never plain grey). */
+  --app-frame-border: color-mix(in srgb, var(--p-primary-color) 35%, var(--p-surface-0));
+  --app-card: color-mix(in srgb, var(--p-primary-color) 4%, var(--p-surface-0));
+  --app-border: color-mix(in srgb, var(--p-primary-color) 18%, var(--p-surface-200));
+  --app-text: var(--p-surface-900);
+  --app-muted: var(--p-surface-500);
+  --app-radius: 12px;
+  --app-gap: 1rem;
+  --app-sidebar-width: 248px;
+  --app-header-height: 76px;
+  --app-transition: 160ms ease;
+}
+
+:root.app-dark {
+  --app-bg: color-mix(in srgb, var(--p-primary-color) 10%, var(--p-surface-950));
+  --app-header-bg: color-mix(in srgb, var(--p-primary-color) 18%, var(--p-surface-900));
+  --app-frame-border: color-mix(in srgb, var(--p-primary-color) 35%, var(--p-surface-900));
+  --app-card: color-mix(in srgb, var(--p-primary-color) 5%, var(--p-surface-900));
+  --app-border: color-mix(in srgb, var(--p-primary-color) 18%, var(--p-surface-800));
+  --app-text: var(--p-surface-0);
+  --app-muted: var(--p-surface-400);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; height: 100%; }
+
+body {
+  font-family: var(--app-font);
+  font-size: 0.875rem; /* rem, so the header's text-size controls scale it */
+  line-height: 1.5;
+  background: var(--app-bg);
+  color: var(--app-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+
+/* ---------- Primitives ---------- */
+.app-card {
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  padding: 1.25rem;
+}
+
+.app-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* KPI grid, mobile-first and sized by the content area (not the viewport): 1 → 2 → 4 columns, never an orphan. */
+.app-grid {
+  display: grid;
+  gap: var(--app-gap);
+  grid-template-columns: minmax(0, 1fr);
+}
+@container page (min-width: 440px) { .app-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container page (min-width: 900px) { .app-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.app-stack { display: flex; flex-direction: column; gap: var(--app-gap); min-width: 0; container: page / inline-size; }
+.app-stack > * { min-width: 0; }
+
+.text-muted { color: var(--app-muted); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+:focus-visible { outline: 2px solid var(--p-primary-color); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes app-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.app-fade-in { animation: app-fade-in 200ms ease both; }
+
+/* ---------- Responsive foundations (320px → 1920px+) ---------- */
+img, svg, video { max-width: 100%; height: auto; }
+
+/* Fluid type: scales smoothly between phone and large desktop. */
+/* Page titles: medium size (≈18px on phones → 22px on desktop). */
+h1 { font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem); line-height: 1.3; }
+:root { --app-gap: clamp(0.75rem, 0.6rem + 0.6vw, 1.25rem); }
+.app-card { padding: clamp(0.875rem, 0.7rem + 0.7vw, 1.5rem); }
+/* Cards that just wrap a table need less padding — the table brings its own cell spacing. */
+.app-card:has(> app-data-table) { padding: 0.75rem; }
+
+/* Long words (scheme names, IDs) never force horizontal scroll. */
+body { overflow-wrap: break-word; }
+
+/* Keep single- and multi-select the same height and font size as text inputs. */
+:root .p-select .p-select-label, :root .p-multiselect .p-multiselect-label, :root .p-inputtext { font-size: 0.875rem; }
+
+/* Clear (×) and dropdown arrow icons: medium size, same in every select. */
+:root .p-select-clear-icon, :root .p-select-dropdown-icon,
+:root .p-multiselect-clear-icon, :root .p-multiselect-dropdown-icon,
+:root .p-select-dropdown .p-icon, :root .p-multiselect-dropdown .p-icon { width: 0.75rem; height: 0.75rem; }
+
+
+/* Toasts span the screen on phones instead of a fixed 25rem. */
+@media (max-width: 640px) {
+  .p-toast.p-toast-top-right { width: auto; left: 0.75rem; right: 0.75rem; top: 0.75rem; }
+}
+
+/* Devanagari needs a little more vertical room for matras. */
+:root:lang(mr) body { line-height: 1.65; }

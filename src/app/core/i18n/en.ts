@@ -1,0 +1,155 @@
+/**
+ * English UI strings — the source dictionary. Every key here MUST exist in mr.ts (enforced by the compiler).
+ * Placeholders: {name} is filled by I18nService.t(); {0}, {first}, {last}, {totalRecords} are filled by PrimeNG.
+ */
+export const EN = {
+  // App shell
+  'app.name': 'Transparency Portal',
+  'app.title': 'DBT Transparency Portal',
+  'nav.main': 'Main navigation',
+  'nav.open': 'Open navigation',
+  'nav.close': 'Close navigation',
+  'nav.home': 'Home',
+  'nav.breadcrumb': 'Breadcrumb',
+  'nav.dashboard': 'Dashboard',
+  'nav.dashboard.desc': 'Key figures at a glance',
+  'nav.directory': 'Scheme Directory',
+  'nav.directory.desc': 'All schemes and departments',
+  'nav.beneficiaries': 'Beneficiaries',
+  'nav.beneficiaries.desc': 'Search beneficiary lists',
+  'theme.toDark': 'Switch to dark theme',
+  'theme.toLight': 'Switch to light theme',
+  'theme.dark': 'Dark theme',
+  'theme.light': 'Light theme',
+  'a11y.skipMain': 'Skip to main content',
+  'a11y.bar': 'Accessibility options',
+  'a11y.textSize': 'Text size',
+  'a11y.textSmaller': 'Decrease text size',
+  'a11y.textReset': 'Reset text size',
+  'a11y.textLarger': 'Increase text size',
+  'gov.emblem': 'Emblem of India',
+  'theme.label': 'Theme',
+  'theme.colour': 'Colour theme',
+  'theme.orange': 'Orange',
+  'theme.blue': 'Blue',
+  'theme.teal': 'Teal',
+  'theme.magenta': 'Magenta',
+  'theme.black': 'Black',
+  'lang.label': 'Language',
+  'lang.changed': 'Language changed',
+  'lang.changedDetail': 'The portal is now shown in English.',
+  'footer.disclosure':
+    'Beneficiary details are published only where approved by the data-owning department. Sensitive identifiers (Aadhaar, bank, mobile, address, date of birth) are never displayed.',
+
+  // Filters (spec §6)
+  'filters.title': 'Filters',
+  'filters.activeCount': '{count} active filters',
+  'filters.share': 'Share view',
+  'filters.shareAria': 'Copy link to this filtered view',
+  'filters.reset': 'Reset',
+  'filter.fy': 'Financial Year',
+  'filter.dept': 'Department',
+  'filter.scheme': 'Scheme',
+  'filter.district': 'District',
+  'filter.taluka': 'Taluka',
+  'filter.village': 'Village',
+  'filter.name': 'Beneficiary Name',
+  'filter.benefitType': 'Benefit Type',
+  'filter.gender': 'Gender',
+  'filters.all': 'All',
+  'filters.all.dept': 'All departments',
+  'filters.all.benefitType': 'All benefit types',
+  'filters.all.gender': 'All genders',
+  'filters.selectDistrictFirst': 'Select a district first',
+  'filters.selectTalukaFirst': 'Select a taluka first',
+  'filters.selectedCount': '{0} selected',
+  'filters.searchName': 'Search by name',
+  'filters.minChars': 'Minimum {n} characters',
+  'filters.enterMinChars': 'Enter at least {n} characters',
+  'filters.confirmHeader': 'Clear all filters?',
+  'filters.confirmMessage': 'This removes every selected filter on all pages.',
+  'filters.confirmAccept': 'Clear filters',
+  'filters.cleared': 'Filters cleared',
+  'filters.linkCopied': 'Link copied',
+  'filters.linkCopiedDetail': 'Anyone with this link sees the same filtered view.',
+  'filters.copyFailed': 'Copy failed',
+  'common.cancel': 'Cancel',
+
+  // Data table
+  'table.default': 'Data table',
+  'table.quickSearch': 'Quick search',
+  'table.quickSearchAria': 'Quick search in table',
+  'table.columns': 'Columns',
+  'table.columnsCount': 'Columns ({0})',
+  'table.chooseColumns': 'Choose visible columns',
+  'table.masked': 'Masked as per disclosure policy',
+  'table.pageReport': '{first}–{last} of {totalRecords}',
+
+  // States
+  'state.empty': 'No data found',
+  'state.emptyHint': 'Try changing or clearing the filters.',
+  'state.noRecords': 'No records found',
+  'state.noDataForFilters': 'No data for these filters',
+  'state.errorTitle': 'Something went wrong',
+  'state.errorMessage': 'We could not load this data. Please try again.',
+  'state.retry': 'Try again',
+  'api.errorSummary': 'Could not load data',
+  'api.unreachable': 'The server is unreachable. Check your connection.',
+  'api.failed': 'Request failed ({status}).',
+
+  // Status values from the API
+  'status.Active': 'Active',
+  'status.Closed': 'Closed',
+  'status.Upcoming': 'Upcoming',
+
+  // Dashboard
+  'dashboard.subtitle': 'Direct Benefit Transfer at a glance for the selected filters.',
+  'dashboard.keyFigures': 'Key figures',
+  'dashboard.byScheme': 'By scheme',
+  'dashboard.byDistrict': 'By district',
+  'dashboard.byGender': 'By gender',
+  'kpi.totalBeneficiaries': 'Total beneficiaries',
+  'kpi.disbursed': 'Benefit disbursed',
+  'kpi.schemes': 'Schemes with beneficiaries',
+  'kpi.districts': 'Districts covered',
+  'kpi.beneficiaries': 'Beneficiaries',
+  'chart.total': 'beneficiaries',
+
+  // Columns
+  'col.scheme': 'Scheme',
+  'col.department': 'Department',
+  'col.benefitType': 'Benefit Type',
+  'col.beneficiaries': 'Beneficiaries',
+  'col.amount': 'Amount Disbursed',
+  'col.status': 'Status',
+  'col.name': 'Beneficiary Name',
+  'col.id': 'Beneficiary / Application ID',
+  'col.schemeYear': 'Scheme & Financial Year',
+  'col.location': 'Village, Taluka, District',
+  'col.benefitAmount': 'Benefit Amount',
+  'col.period': 'Benefit Date / Period',
+
+  // Directory
+  'directory.subtitle': 'Schemes, departments and aggregate benefits. Select a scheme to see its beneficiaries.',
+  'directory.rowAction': 'View beneficiaries of this scheme',
+
+  // Export (aggregate data only)
+  'export.excel': 'Excel',
+  'export.pdf': 'PDF',
+  'export.excelAria': 'Export to Excel (CSV)',
+  'export.pdfAria': 'Export to PDF',
+  'export.ready': 'Export ready',
+  'export.downloaded': '{file} downloaded.',
+  'export.popupBlocked': 'Pop-up blocked',
+  'export.allowPopups': 'Allow pop-ups to export PDF.',
+
+
+  // Beneficiaries (spec §7)
+  'benef.subtitle': 'Search and browse beneficiary lists by scheme and location.',
+  'benef.aria': 'Beneficiary list',
+  'benef.emptyTitle': 'No beneficiaries found',
+  'benef.emptyMessage': 'Try a different name (minimum 3 characters) or broaden the location filters.',
+  'benef.notDisclosed': 'Not disclosed'
+} as const;
+
+export type TranslationKey = keyof typeof EN;

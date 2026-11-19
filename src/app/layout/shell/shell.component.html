@@ -1,0 +1,59 @@
+<ng-template #navList>
+  <nav [attr.aria-label]="t('nav.main')">
+    <ul class="nav">
+      @for (item of nav; track item.path) {
+        <li>
+          <!-- Filters are retained across pages (spec §6) -->
+          <a [routerLink]="item.path" queryParamsHandling="preserve" routerLinkActive="active"
+             ariaCurrentWhenActive="page" (click)="mobileNavOpen.set(false)">
+            <i [class]="'pi ' + item.icon" aria-hidden="true"></i>
+            <span>
+              <span class="nav-label">{{ t(item.label) }}</span>
+              <span class="nav-desc">{{ t(item.description) }}</span>
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</ng-template>
+
+<!-- Full-width header across the top; sidebar and content sit below it. -->
+<header class="topbar">
+  <p-button class="menu-btn" icon="pi pi-bars" [text]="true" severity="secondary"
+            [ariaLabel]="t('nav.open')" (onClick)="mobileNavOpen.set(true)" />
+  <span class="logo" aria-hidden="true"><i class="pi pi-eye"></i></span>
+  <span class="topbar-title">{{ t('app.title') }}</span>
+  <!-- State emblem: centred in the header on wide screens, beside the title on narrower ones. -->
+  <img class="emblem" src="images/emb-black.svg" [alt]="t('gov.emblem')" width="57" height="94" />
+  <span class="spacer"></span>
+  <div class="topbar-actions">
+    <app-header-tools class="header-tools" />
+    <p-button [icon]="theme.dark() ? 'pi pi-sun' : 'pi pi-moon'" [rounded]="true" [text]="true" severity="secondary"
+              [ariaLabel]="theme.dark() ? t('theme.toLight') : t('theme.toDark')"
+              [pTooltip]="theme.dark() ? t('theme.light') : t('theme.dark')" tooltipPosition="bottom"
+              (onClick)="theme.toggle()" />
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <ng-container [ngTemplateOutlet]="navList" />
+  </aside>
+
+  <div class="main-col">
+    <main id="main" class="content" tabindex="-1">
+      <router-outlet />
+    </main>
+
+    <footer class="footer text-muted">{{ t('footer.disclosure') }}</footer>
+  </div>
+</div>
+
+<p-drawer [visible]="mobileNavOpen()" (visibleChange)="mobileNavOpen.set($event)" [header]="t('app.name')"
+          styleClass="mobile-drawer" [ariaCloseLabel]="t('nav.close')">
+  <ng-container [ngTemplateOutlet]="navList" />
+</p-drawer>
+
+<p-toast key="global" position="top-right" />
+<p-confirmdialog [style]="{ width: '28rem' }" [breakpoints]="{ '640px': 'calc(100vw - 1.5rem)' }" />
