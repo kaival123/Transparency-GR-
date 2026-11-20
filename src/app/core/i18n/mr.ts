@@ -4,7 +4,7 @@ import { TranslationKey } from './en';
 export const MR: Record<TranslationKey, string> = {
   // App shell
   'app.name': 'पारदर्शकता पोर्टल',
-  'app.title': 'डीबीटी पारदर्शकता पोर्टल',
+  'app.title': 'महाराष्ट्र शासन',
   'nav.main': 'मुख्य नेव्हिगेशन',
   'nav.open': 'नेव्हिगेशन उघडा',
   'nav.close': 'नेव्हिगेशन बंद करा',
@@ -16,10 +16,6 @@ export const MR: Record<TranslationKey, string> = {
   'nav.directory.desc': 'सर्व योजना व विभाग',
   'nav.beneficiaries': 'लाभार्थी',
   'nav.beneficiaries.desc': 'लाभार्थी याद्या शोधा',
-  'theme.toDark': 'गडद थीम वापरा',
-  'theme.toLight': 'फिकट थीम वापरा',
-  'theme.dark': 'गडद थीम',
-  'theme.light': 'फिकट थीम',
   'a11y.skipMain': 'मुख्य मजकुराकडे जा',
   'a11y.bar': 'सुलभता पर्याय',
   'a11y.textSize': 'मजकुराचा आकार',
@@ -43,8 +39,6 @@ export const MR: Record<TranslationKey, string> = {
   // Filters
   'filters.title': 'फिल्टर',
   'filters.activeCount': '{count} फिल्टर सक्रिय',
-  'filters.share': 'दृश्य शेअर करा',
-  'filters.shareAria': 'या फिल्टर केलेल्या दृश्याची लिंक कॉपी करा',
   'filters.reset': 'रीसेट',
   'filter.fy': 'आर्थिक वर्ष',
   'filter.dept': 'विभाग',
@@ -59,8 +53,6 @@ export const MR: Record<TranslationKey, string> = {
   'filters.all.dept': 'सर्व विभाग',
   'filters.all.benefitType': 'लाभाचे सर्व प्रकार',
   'filters.all.gender': 'सर्व लिंग',
-  'filters.selectDistrictFirst': 'आधी जिल्हा निवडा',
-  'filters.selectTalukaFirst': 'आधी तालुका निवडा',
   'filters.selectedCount': '{0} निवडले',
   'filters.searchName': 'नावाने शोधा',
   'filters.minChars': 'किमान {n} अक्षरे',
@@ -69,9 +61,6 @@ export const MR: Record<TranslationKey, string> = {
   'filters.confirmMessage': 'यामुळे सर्व पृष्ठांवरील निवडलेले सर्व फिल्टर काढले जातील.',
   'filters.confirmAccept': 'फिल्टर काढा',
   'filters.cleared': 'फिल्टर काढले',
-  'filters.linkCopied': 'लिंक कॉपी झाली',
-  'filters.linkCopiedDetail': 'ही लिंक असणाऱ्या कोणालाही हेच फिल्टर केलेले दृश्य दिसेल.',
-  'filters.copyFailed': 'कॉपी करता आली नाही',
   'common.cancel': 'रद्द करा',
 
   // Data table
@@ -102,7 +91,6 @@ export const MR: Record<TranslationKey, string> = {
   'status.Upcoming': 'आगामी',
 
   // Dashboard
-  'dashboard.subtitle': 'निवडलेल्या फिल्टरनुसार थेट लाभ हस्तांतरणाचा एका दृष्टिक्षेपात आढावा.',
   'dashboard.keyFigures': 'महत्त्वाची आकडेवारी',
   'dashboard.byScheme': 'योजनानिहाय',
   'dashboard.byDistrict': 'जिल्हानिहाय',
@@ -129,7 +117,6 @@ export const MR: Record<TranslationKey, string> = {
   'col.period': 'लाभाचा दिनांक / कालावधी',
 
   // Directory
-  'directory.subtitle': 'योजना, विभाग आणि एकूण लाभ. लाभार्थी पाहण्यासाठी योजना निवडा.',
   'directory.rowAction': 'या योजनेचे लाभार्थी पाहा',
 
   // Export
@@ -144,7 +131,6 @@ export const MR: Record<TranslationKey, string> = {
 
 
   // Beneficiaries
-  'benef.subtitle': 'योजना व ठिकाणानुसार लाभार्थी याद्या शोधा आणि पाहा.',
   'benef.aria': 'लाभार्थी यादी',
   'benef.emptyTitle': 'कोणतेही लाभार्थी आढळले नाहीत',
   'benef.emptyMessage': 'वेगळे नाव (किमान ३ अक्षरे) वापरून पाहा किंवा ठिकाणाचे फिल्टर कमी करा.',

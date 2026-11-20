@@ -16,7 +16,7 @@ import { BarChartComponent } from './bar-chart.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="app-stack">
-      <app-page-header [title]="t('nav.dashboard')" [subtitle]="t('dashboard.subtitle')" />
+      <app-page-header [title]="t('nav.dashboard')" />
 
       @let s = data.state();
       @let d = summary();

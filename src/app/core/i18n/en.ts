@@ -5,7 +5,7 @@
 export const EN = {
   // App shell
   'app.name': 'Transparency Portal',
-  'app.title': 'DBT Transparency Portal',
+  'app.title': 'Government of Maharashtra',
   'nav.main': 'Main navigation',
   'nav.open': 'Open navigation',
   'nav.close': 'Close navigation',
@@ -17,10 +17,6 @@ export const EN = {
   'nav.directory.desc': 'All schemes and departments',
   'nav.beneficiaries': 'Beneficiaries',
   'nav.beneficiaries.desc': 'Search beneficiary lists',
-  'theme.toDark': 'Switch to dark theme',
-  'theme.toLight': 'Switch to light theme',
-  'theme.dark': 'Dark theme',
-  'theme.light': 'Light theme',
   'a11y.skipMain': 'Skip to main content',
   'a11y.bar': 'Accessibility options',
   'a11y.textSize': 'Text size',
@@ -44,8 +40,6 @@ export const EN = {
   // Filters (spec §6)
   'filters.title': 'Filters',
   'filters.activeCount': '{count} active filters',
-  'filters.share': 'Share view',
-  'filters.shareAria': 'Copy link to this filtered view',
   'filters.reset': 'Reset',
   'filter.fy': 'Financial Year',
   'filter.dept': 'Department',
@@ -60,8 +54,6 @@ export const EN = {
   'filters.all.dept': 'All departments',
   'filters.all.benefitType': 'All benefit types',
   'filters.all.gender': 'All genders',
-  'filters.selectDistrictFirst': 'Select a district first',
-  'filters.selectTalukaFirst': 'Select a taluka first',
   'filters.selectedCount': '{0} selected',
   'filters.searchName': 'Search by name',
   'filters.minChars': 'Minimum {n} characters',
@@ -70,9 +62,6 @@ export const EN = {
   'filters.confirmMessage': 'This removes every selected filter on all pages.',
   'filters.confirmAccept': 'Clear filters',
   'filters.cleared': 'Filters cleared',
-  'filters.linkCopied': 'Link copied',
-  'filters.linkCopiedDetail': 'Anyone with this link sees the same filtered view.',
-  'filters.copyFailed': 'Copy failed',
   'common.cancel': 'Cancel',
 
   // Data table
@@ -103,7 +92,6 @@ export const EN = {
   'status.Upcoming': 'Upcoming',
 
   // Dashboard
-  'dashboard.subtitle': 'Direct Benefit Transfer at a glance for the selected filters.',
   'dashboard.keyFigures': 'Key figures',
   'dashboard.byScheme': 'By scheme',
   'dashboard.byDistrict': 'By district',
@@ -130,7 +118,6 @@ export const EN = {
   'col.period': 'Benefit Date / Period',
 
   // Directory
-  'directory.subtitle': 'Schemes, departments and aggregate benefits. Select a scheme to see its beneficiaries.',
   'directory.rowAction': 'View beneficiaries of this scheme',
 
   // Export (aggregate data only)
@@ -145,7 +132,6 @@ export const EN = {
 
 
   // Beneficiaries (spec §7)
-  'benef.subtitle': 'Search and browse beneficiary lists by scheme and location.',
   'benef.aria': 'Beneficiary list',
   'benef.emptyTitle': 'No beneficiaries found',
   'benef.emptyMessage': 'Try a different name (minimum 3 characters) or broaden the location filters.',

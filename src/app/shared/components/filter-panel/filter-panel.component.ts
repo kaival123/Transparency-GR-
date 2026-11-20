@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DOCUMENT, Signal, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, inject, input, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -26,15 +26,12 @@ export class FilterPanelComponent {
   private readonly master = inject(MasterDataService);
   private readonly confirm = inject(ConfirmationService);
   private readonly messages = inject(MessageService);
-  private readonly document = inject(DOCUMENT);
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
 
   readonly page = input.required<PageKey>();
 
   protected readonly state = this.filters.state;
-  /** Collapsed by default on phones so results stay visible; the badge still shows active filters. */
-  protected readonly expanded = signal(this.document.defaultView?.matchMedia?.('(min-width: 768px)').matches ?? true);
   protected readonly definitions = computed(() => this.filters.definitionsFor(this.page()));
   /** Filters drawn in this panel; table-placed ones (e.g. name search) live in the results toolbar but still count as active. */
   protected readonly panelDefinitions = computed(() => this.definitions().filter((d) => d.placement !== 'table'));
@@ -79,8 +76,6 @@ export class FilterPanelComponent {
   }
 
   protected placeholder(def: FilterDefinition): string {
-    if (def.key === 'taluka' && !this.state().district) return this.t('filters.selectDistrictFirst');
-    if (def.key === 'village' && !this.state().taluka) return this.t('filters.selectTalukaFirst');
     return def.type === 'multi' ? this.t(`filters.all.${def.key}` as TranslationKey) : this.t('filters.all');
   }
 
@@ -107,19 +102,6 @@ export class FilterPanelComponent {
         this.messages.add({ key: 'global', severity: 'info', summary: this.t('filters.cleared') });
       }
     });
-  }
-
-  protected async share(): Promise<void> {
-    // Include the language so the recipient sees the same view in the same language.
-    const link = new URL(this.document.location.href);
-    link.searchParams.set('lang', this.i18n.lang());
-    const url = link.toString();
-    try {
-      await navigator.clipboard.writeText(url);
-      this.messages.add({ key: 'global', severity: 'success', summary: this.t('filters.linkCopied'), detail: this.t('filters.linkCopiedDetail') });
-    } catch {
-      this.messages.add({ key: 'global', severity: 'warn', summary: this.t('filters.copyFailed'), detail: url });
-    }
   }
 
   /** Master data reloads in the new language whenever the UI language changes. */

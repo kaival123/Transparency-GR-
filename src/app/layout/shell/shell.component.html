@@ -22,17 +22,13 @@
 <header class="topbar">
   <p-button class="menu-btn" icon="pi pi-bars" [text]="true" severity="secondary"
             [ariaLabel]="t('nav.open')" (onClick)="mobileNavOpen.set(true)" />
-  <span class="logo" aria-hidden="true"><i class="pi pi-eye"></i></span>
+  <img class="logo" src="images/GovMahaLog.png" alt="" width="42" height="42" />
   <span class="topbar-title">{{ t('app.title') }}</span>
   <!-- State emblem: centred in the header on wide screens, beside the title on narrower ones. -->
   <img class="emblem" src="images/emb-black.svg" [alt]="t('gov.emblem')" width="57" height="94" />
   <span class="spacer"></span>
   <div class="topbar-actions">
     <app-header-tools class="header-tools" />
-    <p-button [icon]="theme.dark() ? 'pi pi-sun' : 'pi pi-moon'" [rounded]="true" [text]="true" severity="secondary"
-              [ariaLabel]="theme.dark() ? t('theme.toLight') : t('theme.toDark')"
-              [pTooltip]="theme.dark() ? t('theme.light') : t('theme.dark')" tooltipPosition="bottom"
-              (onClick)="theme.toggle()" />
   </div>
 </header>
 

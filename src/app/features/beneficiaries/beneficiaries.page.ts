@@ -22,7 +22,7 @@ import { AsyncState, reactiveLoad } from '../../shared/utils/async-state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="app-stack">
-      <app-page-header [title]="t('nav.beneficiaries')" [subtitle]="t('benef.subtitle')"
+      <app-page-header [title]="t('nav.beneficiaries')"
                        [breadcrumbs]="[{ label: t('nav.beneficiaries') }]" />
       <app-filter-panel page="beneficiaries" />
 

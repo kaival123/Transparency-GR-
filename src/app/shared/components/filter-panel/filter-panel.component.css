@@ -8,23 +8,15 @@
   flex-wrap: wrap;
 }
 
-.toggle {
+.title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: none;
-  border: 0;
   padding: 0.5rem 0.25rem;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  border-radius: 6px;
 }
 
-.toggle h2 { font-size: 0.95rem; }
-.toggle .chevron { font-size: 0.75rem; color: var(--app-muted); }
 /* Active-filter count: medium size (PrimeNG default is 1.5rem). */
-.toggle ::ng-deep .p-badge { min-width: 1.125rem; height: 1.125rem; padding: 0 0.3rem; font-size: 0.675rem; line-height: 1.125rem; }
+.title ::ng-deep .p-badge { min-width: 1.125rem; height: 1.125rem; padding: 0 0.3rem; font-size: 0.675rem; line-height: 1.125rem; }
 
 .head-actions { display: flex; gap: 0.25rem; }
 

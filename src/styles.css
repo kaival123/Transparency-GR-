@@ -16,7 +16,7 @@
   --app-radius: 12px;
   --app-gap: 1rem;
   --app-sidebar-width: 248px;
-  --app-header-height: 76px;
+  --app-header-height: 70px;
   --app-transition: 160ms ease;
 }
 
@@ -120,3 +120,9 @@ body { overflow-wrap: break-word; }
 
 /* Devanagari needs a little more vertical room for matras. */
 :root:lang(mr) body { line-height: 1.65; }
+
+/* UX4G accessibility widget (index.html): use the portal's theme colour instead of its default purple.
+   html:root out-ranks the widget's own :root rule, and follows the theme swatch the user picks. */
+html:root { --color-dark-blue-1: var(--p-primary-color); }
+/* Hide the widget's "Created by UX4G" footer link (its logo image fails to load); keep "Reset All Settings". */
+.copyrights-accessibility .copyright-text { display: none !important; }

@@ -25,7 +25,7 @@ import { LanguageSwitcherComponent } from '../../shared/components/language-swit
       </button>
     </div>
 
-    <div class="pill lang"><app-language-switcher /></div>
+    <div class="pill lang-pill"><app-language-switcher /></div>
 
     <div class="pill colours" role="radiogroup" [attr.aria-label]="t('theme.colour')">
       <span class="colours-label" aria-hidden="true">{{ t('theme.label') }}</span>
@@ -41,40 +41,56 @@ import { LanguageSwitcherComponent } from '../../shared/components/language-swit
     </div>
   `,
   styles: `
-    :host { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+    /* Measurements match the approved header mock (pills 38px tall, 9px apart, pure white). */
+    :host { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; justify-content: flex-end; }
     .pill {
-      display: inline-flex; align-items: center; gap: 0.25rem;
-      min-height: 2rem; padding: 0 0.5rem; font-size: 0.85rem;
-      background: var(--app-card); /* white pills on the tinted header */
-      border-radius: 8px; color: var(--app-text);
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      min-height: 38px; padding: 0 17px; font-size: 13px;
+      background: #fff;
+      border-radius: 8px; color: #333;
     }
-    /* Hidden until reached with Tab (keyboard / screen-reader users still need it). */
-    .skip { position: absolute; left: -999px; text-decoration: none; font-weight: 500; }
-    .skip:focus { left: 0.5rem; top: 0.5rem; z-index: 1000; box-shadow: 0 2px 8px rgb(0 0 0 / 0.15); }
+    :host-context(.app-dark) .pill { background: var(--app-card); color: var(--app-text); }
+    /* Visible pill on tablet/desktop, like the other tools. */
+    /* Not shown in the bar; appears only when reached with Tab (GIGW skip link for keyboard / screen-reader users). */
+    .skip { position: absolute; left: -999px; text-decoration: none; font-weight: 400; font-size: 13px; }
+    .skip:focus { left: 0.5rem; top: 0.5rem; z-index: 1000; box-shadow: 0 2px 8px rgb(0 0 0 / 0.15); outline: 2px solid var(--p-primary-color); outline-offset: 2px; }
 
     .icon-btn {
       border: 0; background: none; color: inherit; font: inherit; cursor: pointer;
-      min-width: 1.6rem; height: 1.6rem; border-radius: 6px; display: grid; place-items: center;
+      min-width: 0; height: 1.875rem; padding: 0 2px; border-radius: 6px; display: grid; place-items: center;
     }
-    .icon-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--p-primary-color) 14%, transparent); }
     .icon-btn:disabled { opacity: 0.4; cursor: default; }
-    .icon-btn .pi { font-size: 0.75rem; }
-    .aa { font-weight: 600; padding: 0 0.25rem; }
+    .icon-btn:focus-visible { outline: 2px solid var(--p-primary-color); outline-offset: 1px; }
+    .icon-btn .pi { font-size: 13px; }
+    .aa { font-weight: 400; font-size: 13px; padding: 0; }
+    /* − Aa +  : 14px edge, ~17px between items (112px pill). */
+    .text-size { padding: 0 12px; gap: 15px; }
 
-    .lang { padding: 0; }
-    .lang ::ng-deep .p-select { border: 0; box-shadow: none; background: transparent; font-size: 0.85rem; }
-    .lang ::ng-deep .p-select-label { padding-block: 0.25rem; }
+    .lang-pill { padding: 0 13px 0 15px; }
+    .lang-pill ::ng-deep .p-select { border: 0; box-shadow: none; background: transparent; height: 38px; align-items: center; }
+    .lang-pill ::ng-deep .p-select-label { font-size: 13px; padding: 0; color: inherit; display: flex; align-items: center; line-height: 1; }
+    /* Small solid caret 8px after the language name. */
+    .lang-pill ::ng-deep .p-select-dropdown { width: auto; padding-left: 6px; color: inherit; }
+    .lang-pill ::ng-deep .p-select-dropdown .pi { font-size: 8px; transform: translateY(3px); } /* glyph sits high in its box */
 
-    .colours { gap: 0.4rem; }
-    .colours-label { font-weight: 500; margin-right: 0.25rem; }
+    .colours { gap: 9px; padding: 0 13px; }
+    .colours-label { font-weight: 400; font-size: 13px; margin-right: 1px; }
     .swatch {
-      width: 1.25rem; height: 1.25rem; border-radius: 4px; border: 0; cursor: pointer;
+      width: 20px; height: 20px; border-radius: 4px; border: 0; cursor: pointer;
       display: grid; place-items: center; color: #fff; padding: 0;
     }
-    .swatch[aria-checked='true'] { outline: 2px solid var(--app-text); outline-offset: 2px; }
-    .swatch .pi { font-size: 0.65rem; font-weight: 700; }
+    /* Selected colour shows only the white tick (no ring); keyboard focus still gets an outline. */
+    .swatch:focus-visible { outline: 2px solid var(--app-text); outline-offset: 2px; }
+    .swatch .pi { font-size: 12px; font-weight: 900; }
 
     @media (max-width: 767.98px) {
+      /* Phones: no room for it in the bar — hidden until reached with Tab. */
+      .pill { min-height: 2rem; font-size: 0.85rem; }
+      .icon-btn { min-width: 1.6rem; height: 1.6rem; }
+      .icon-btn .pi { font-size: 0.75rem; }
+      .text-size { gap: 0.25rem; }
+      .lang-pill ::ng-deep .p-select { font-size: 0.85rem; }
+      .swatch { width: 1.25rem; height: 1.25rem; }
       :host { gap: 0.375rem; }
       .pill { padding: 0 0.375rem; }
       .colours-label { display: none; }
@@ -87,11 +103,11 @@ import { LanguageSwitcherComponent } from '../../shared/components/language-swit
       .pill { padding: 0 0.25rem; min-height: 1.875rem; }
       .icon-btn { min-width: 1.375rem; height: 1.375rem; }
       .aa { padding: 0 0.125rem; }
-      .lang ::ng-deep .p-select-label { padding-inline: 0.25rem; }
-      .lang ::ng-deep .p-select-dropdown { width: 1.25rem; }
+      .lang-pill ::ng-deep .p-select-label { padding-inline: 0.25rem; }
+      .lang-pill ::ng-deep .p-select-dropdown { width: 1.25rem; }
       .colours { gap: 0.25rem; }
       .swatch { width: 1rem; height: 1rem; }
-      .swatch[aria-checked='true'] { outline-offset: 1px; }
+      .swatch:focus-visible { outline-offset: 1px; }
     }
   `
 })

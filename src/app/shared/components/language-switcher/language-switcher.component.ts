@@ -23,16 +23,15 @@ import { Lang } from '../../../core/i18n/languages';
       (ngModelChange)="change($event)"
       [ariaLabel]="i18n.t('lang.label')"
       size="small"
+      dropdownIcon="pi pi-sort-down-fill"
       appendTo="body"
       styleClass="lang-select"
       panelStyleClass="lang-panel">
       <ng-template #selectedItem let-option>
         <span class="selected">
-          <!-- "A ↔ अ" translate glyph (Latin + Devanagari) -->
-          <svg class="lang-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <text x="1.5" y="11.5" font-size="11.5" font-weight="600" font-family="Inter, 'Segoe UI', system-ui, sans-serif" fill="currentColor">A</text>
-            <path d="M10.6 8.2c.7-1.1 1.5-1.1 2.2 0s1.5 1.1 2.2 0" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-            <text x="9.2" y="21.5" font-size="12" font-weight="600" font-family="'Nirmala UI', 'Noto Sans Devanagari', Mangal, sans-serif" fill="currentColor">अ</text>
+          <!-- Translate glyph from public/images/language-translate.svg, inlined so it follows the text colour (dark mode). -->
+          <svg class="lang-icon" viewBox="0 0 19 20" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M18 10h-2a1 1 0 0 0 0 2v2h-1.185A3 3 0 0 0 15 13a3 3 0 0 0-5.598-1.5 1 1 0 1 0 1.732 1A1 1 0 1 1 12 14a1 1 0 0 0 0 2 1 1 0 1 1-.866 1.5 1 1 0 1 0-1.732 1A3 3 0 0 0 15 17a3 3 0 0 0-.185-1H16v3a1 1 0 0 0 2 0v-7a1 1 0 0 0 0-2M6.03 9.243a1 1 0 1 0 1.94-.486l-1.757-7.03a2.280 2.280 0 0 0-4.425 0L.03 8.758a1 1 0 1 0 1.940.486L2.53 7h2.94zM3.030 5l.697-2.787a.292.292 0 0 1 .546 0L4.970 5zM11 5h1a1 1 0 0 1 1 1v1a1 1 0 0 0 2 0V6a3.003 3.003 0 0 0-3-3h-1a1 1 0 0 0 0 2m-4 9H6a1 1 0 0 1-1-1v-1a1 1 0 1 0-2 0v1a3.003 3.003 0 0 0 3 3h1a1 1 0 0 0 0-2"/>
           </svg>
           <span class="full" [attr.lang]="option.code">{{ option.nativeName }}</span>
           <span class="short" [attr.lang]="option.code" aria-hidden="true">{{ option.short }}</span>
@@ -52,8 +51,8 @@ import { Lang } from '../../../core/i18n/languages';
     </p-select>
   `,
   styles: `
-    .selected { display: inline-flex; align-items: center; gap: 0.45rem; }
-    .lang-icon { width: 1.6em; height: 1.6em; flex: none; color: var(--app-text); overflow: visible; }
+    .selected { display: inline-flex; align-items: center; gap: 8px; }
+    .lang-icon { width: 19px; height: 20px; flex: none; color: inherit; }
     .short { display: none; }
     .item { display: flex; align-items: baseline; gap: 0.6rem; width: 100%; min-width: 9rem; }
     .native { font-weight: 600; }

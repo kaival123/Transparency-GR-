@@ -17,8 +17,8 @@ import { StatusBadgeComponent } from '../status-badge/status-badge.component';
 
 /** Tables scroll internally once a page shows more rows than this. */
 const MAX_ROWS_BEFORE_SCROLL = 10;
-/** Roughly 10 rows tall; the header stays pinned while the body scrolls. */
-const SCROLL_HEIGHT = '36rem';
+/** Header (~2.4rem) + 10 rows (~2.375rem each); the header stays pinned while the body scrolls. */
+const SCROLL_HEIGHT = '26.25rem';
 
 export type ColumnType ='text' | 'number' | 'currency' | 'status';
 

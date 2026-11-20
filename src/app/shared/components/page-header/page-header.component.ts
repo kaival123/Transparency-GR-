@@ -24,6 +24,11 @@ import { I18nService } from '../../../core/i18n/i18n.service';
   styles: `
     .page-header { display: flex; flex-direction: column; gap: 0.5rem; }
     :host ::ng-deep .crumbs { background: transparent; padding: 0; }
+    /* Centre the home icon, separators and labels on one line (icon glyphs otherwise ride high). */
+    :host ::ng-deep .crumbs :is(.p-breadcrumb-list, .p-breadcrumb-item, .p-breadcrumb-item-link, .p-breadcrumb-separator) {
+      display: inline-flex; align-items: center; line-height: 1;
+    }
+    :host ::ng-deep .crumbs :is(.p-breadcrumb-item-icon, .p-breadcrumb-separator-icon, .pi) { line-height: 1; display: block; }
     .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; justify-content: space-between; }
     p { margin: 0.25rem 0 0; }
     .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }

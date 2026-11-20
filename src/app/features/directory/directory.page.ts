@@ -19,7 +19,7 @@ import { reactiveLoad } from '../../shared/utils/async-state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="app-stack">
-      <app-page-header [title]="t('nav.directory')" [subtitle]="t('directory.subtitle')"
+      <app-page-header [title]="t('nav.directory')"
                        [breadcrumbs]="[{ label: t('nav.directory') }]" />
       <app-filter-panel page="directory" />
 

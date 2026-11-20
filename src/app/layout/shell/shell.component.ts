@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DrawerModule } from 'primeng/drawer';
 import { ToastModule } from 'primeng/toast';
-import { TooltipModule } from 'primeng/tooltip';
 import { TranslationKey } from '../../core/i18n/en';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { ThemeService } from '../../core/services/theme.service';
@@ -22,7 +21,7 @@ interface NavItem {
   selector: 'app-shell',
   imports: [
     NgTemplateOutlet, RouterOutlet, RouterLink, RouterLinkActive, ButtonModule, DrawerModule, ToastModule,
-    ConfirmDialogModule, TooltipModule, HeaderToolsComponent
+    ConfirmDialogModule, HeaderToolsComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shell.component.html',
