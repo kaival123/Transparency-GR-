@@ -22,8 +22,14 @@
 }
 .nav a .pi { margin-top: 0.2rem; color: var(--app-muted); transition: color var(--app-transition); }
 .nav a:hover { background: color-mix(in srgb, var(--p-primary-color) 6%, transparent); }
-.nav a.active { background: color-mix(in srgb, var(--p-primary-color) 12%, transparent); color: var(--p-primary-color); }
+.nav a.active {
+  background: color-mix(in srgb, var(--p-primary-color) 12%, transparent); color: var(--p-primary-color);
+  /* Light lift for the current page. */
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
 .nav a.active .pi { color: var(--p-primary-color); }
+/* Active item's subtitle: a deeper shade of the theme colour instead of grey on the tinted background. */
+.nav a.active .nav-desc { color: color-mix(in srgb, var(--p-primary-color) 50%, var(--app-text)); }
 .nav-label { display: block; font-weight: 600; }
 .nav-desc { display: block; font-size: 0.75rem; color: var(--app-muted); }
 
