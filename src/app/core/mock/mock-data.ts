@@ -24,6 +24,8 @@ export interface MockBeneficiary {
   villageId: string;
   amount: number;
   period: { from: string; to?: string };
+  /** Date the record was last updated (YYYY-MM-DD). */
+  lastUpdated: string;
 }
 
 export const FINANCIAL_YEARS: MasterOption[] = ['2025-26', '2024-25', '2023-24'].map((v) => ({ value: v, label: `FY ${v}` }));
@@ -111,7 +113,9 @@ function generateBeneficiaries(count: number): MockBeneficiary[] {
       // FY runs Apr–Mar: month index 0 = April.
       period: isPension
         ? { from: `${startYear}-04`, to: `${startYear + 1}-03` }
-        : { from: `${month < 9 ? startYear : startYear + 1}-${String(((month + 3) % 12) + 1).padStart(2, '0')}` }
+        : { from: `${month < 9 ? startYear : startYear + 1}-${String(((month + 3) % 12) + 1).padStart(2, '0')}` },
+      // In the benefit month. Day comes from the index, not rand(), so the rest of the seeded data stays the same.
+      lastUpdated: `${month < 9 ? startYear : startYear + 1}-${String(((month + 3) % 12) + 1).padStart(2, '0')}-${String((i * 7) % 28 + 1).padStart(2, '0')}`
     };
   });
 }

@@ -82,10 +82,13 @@ export class BeneficiariesPage {
   protected readonly columns = computed<TableColumn<BeneficiaryView>[]>(() => [
     { field: 'name', header: this.t('col.name'), hideable: false, maskedFlag: 'nameMasked' },
     { field: 'id', header: this.t('col.id') },
-    { field: 'schemeAndYear', header: this.t('col.schemeYear') },
-    { field: 'location', header: this.t('col.location') },
+    { field: 'scheme', header: this.t('col.scheme'), truncate: true },
+    { field: 'financialYear', header: this.t('filter.fy') },
+    { field: 'village', header: this.t('filter.village') },
+    { field: 'taluka', header: this.t('filter.taluka') },
+    { field: 'district', header: this.t('filter.district') },
     { field: 'benefitAmount', header: this.t('col.benefitAmount'), type: 'currency', emptyText: this.t('benef.notDisclosed') },
-    { field: 'benefitPeriod', header: this.t('col.period') }
+    { field: 'lastUpdated', header: this.t('col.period') }
   ]);
 
   protected onPage(event: PageChange): void {

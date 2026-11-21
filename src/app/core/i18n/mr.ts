@@ -110,17 +110,16 @@ export const MR: Record<TranslationKey, string> = {
   'col.amount': 'वितरित रक्कम',
   'col.status': 'स्थिती',
   'col.name': 'लाभार्थ्याचे नाव',
-  'col.id': 'लाभार्थी / अर्ज क्रमांक',
-  'col.schemeYear': 'योजना व आर्थिक वर्ष',
-  'col.location': 'गाव, तालुका, जिल्हा',
+  'col.id': 'अर्ज क्रमांक',
   'col.benefitAmount': 'लाभाची रक्कम',
-  'col.period': 'लाभाचा दिनांक / कालावधी',
+  'col.period': 'अंतिम अद्यतन दिनांक',
 
   // Directory
   'directory.rowAction': 'या योजनेचे लाभार्थी पाहा',
 
   // Export
-  'export.excel': 'एक्सेल',
+  'export.download': 'डाउनलोड करा',
+  'export.excel': 'एक्सेल (CSV)',
   'export.pdf': 'पीडीएफ',
   'export.excelAria': 'एक्सेलमध्ये (CSV) निर्यात करा',
   'export.pdfAria': 'पीडीएफमध्ये निर्यात करा',

@@ -1,5 +1,5 @@
 import { BeneficiaryApiRecord, BeneficiaryView } from '../../models/transparency.models';
-import { formatMonthYear, localizeDigits } from '../../shared/utils/format';
+import { formatDateShort, formatMonthYear, localizeDigits } from '../../shared/utils/format';
 
 /**
  * Display rules from spec §7. Masking is primarily done in the data layer; these rules are re-applied
@@ -46,9 +46,13 @@ export function toBeneficiaryView(record: BeneficiaryApiRecord, locale = 'en-IN'
     id: maskId(record.beneficiaryId),
     name: nameApproved ? record.name : maskName(record.name),
     nameMasked: !nameApproved,
-    schemeAndYear: `${record.schemeName} (${localizeDigits(record.financialYear, locale)})`,
-    location: [record.village, record.taluka, record.district].filter(Boolean).join(', '),
+    scheme: record.schemeName,
+    financialYear: localizeDigits(record.financialYear, locale),
+    village: record.village,
+    taluka: record.taluka,
+    district: record.district,
     benefitAmount: amountApproved ? record.benefitAmount : null,
-    benefitPeriod: to ? `${formatMonthYear(from, locale)} – ${formatMonthYear(to, locale)}` : formatMonthYear(from, locale)
+    benefitPeriod: to ? `${formatMonthYear(from, locale)} – ${formatMonthYear(to, locale)}` : formatMonthYear(from, locale),
+    lastUpdated: formatDateShort(record.lastUpdated, locale)
   };
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input, signal } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -6,7 +7,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
-import { Observable, catchError, combineLatest, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Observable, catchError, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { TranslationKey } from '../../../core/i18n/en';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { MasterDataService } from '../../../core/services/master-data.service';
@@ -30,6 +31,13 @@ export class FilterPanelComponent {
   protected readonly t = this.i18n.t;
 
   readonly page = input.required<PageKey>();
+
+  /** Phones only: the "Filters" heading can collapse the fields; they start open. */
+  protected readonly mobile = toSignal(
+    inject(BreakpointObserver).observe('(max-width: 767.98px)').pipe(map((r) => r.matches)),
+    { initialValue: false }
+  );
+  protected readonly open = signal(true);
 
   protected readonly state = this.filters.state;
   protected readonly definitions = computed(() => this.filters.definitionsFor(this.page()));

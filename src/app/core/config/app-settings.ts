@@ -17,7 +17,7 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   apiBaseUrl: '/api',
   useMockApi: true,
   optionalFilters: { benefitType: false, gender: false },
-  beneficiaryPageSize: 25
+  beneficiaryPageSize: 10
 };
 
 export const APP_SETTINGS = new InjectionToken<AppSettings>('APP_SETTINGS', {

@@ -93,11 +93,15 @@ function filterRecords(p: HttpParams): MockBeneficiary[] {
   });
 }
 
-function groupBy(records: MockBeneficiary[], key: (b: MockBeneficiary) => string): LabelledMetric[] {
+function groupBy(
+  records: MockBeneficiary[],
+  key: (b: MockBeneficiary) => string,
+  id?: (b: MockBeneficiary) => string
+): LabelledMetric[] {
   const groups = new Map<string, LabelledMetric>();
   for (const b of records) {
     const label = key(b);
-    const g = groups.get(label) ?? { label, beneficiaries: 0, amount: 0 };
+    const g = groups.get(label) ?? { label, ...(id && { key: id(b) }), beneficiaries: 0, amount: 0 };
     g.beneficiaries++;
     g.amount += b.amount;
     groups.set(label, g);
@@ -113,7 +117,7 @@ function dashboard(p: HttpParams, lang: MockLang): DashboardSummary {
     activeSchemes: new Set(records.map((b) => b.schemeId)).size,
     districtsCovered: new Set(records.map((b) => b.districtId)).size,
     byScheme: groupBy(records, (b) => localize(schemeOf(b).label, lang)),
-    byDistrict: groupBy(records, (b) => labelOf(DISTRICTS, b.districtId, lang)),
+    byDistrict: groupBy(records, (b) => labelOf(DISTRICTS, b.districtId, lang), (b) => labelOf(DISTRICTS, b.districtId, 'en')),
     byGender: groupBy(records, (b) => labelOf(GENDERS, b.gender, lang))
   };
 }
@@ -157,6 +161,7 @@ function beneficiaries(p: HttpParams, lang: MockLang): Page<BeneficiaryApiRecord
         village: labelOf(VILLAGES, b.villageId, lang),
         benefitAmount: s.disclosure.amountApproved ? b.amount : null,
         benefitPeriod: b.period,
+        lastUpdated: b.lastUpdated,
         disclosure: s.disclosure
       };
     })

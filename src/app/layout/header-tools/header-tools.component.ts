@@ -83,6 +83,11 @@ import { LanguageSwitcherComponent } from '../../shared/components/language-swit
     .swatch:focus-visible { outline: 2px solid var(--app-text); outline-offset: 2px; }
     .swatch .pi { font-size: 12px; font-weight: 900; }
 
+    /* Phones + tablets (no sidebar): the three tools sit on their own row and share it evenly. */
+    @media (max-width: 1023.98px) {
+      :host { flex-wrap: nowrap; }
+      .pill:not(.skip) { flex: 1 1 auto; justify-content: center; }
+    }
     @media (max-width: 767.98px) {
       /* Phones: no room for it in the bar — hidden until reached with Tab. */
       .pill { min-height: 2rem; font-size: 0.85rem; }

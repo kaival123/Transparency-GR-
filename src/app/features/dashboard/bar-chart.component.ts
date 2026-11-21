@@ -45,8 +45,9 @@ const CHART_HEIGHT = 300;
   `,
   styles: `
     :host { display: block; height: 100%; }
-    section { height: 100%; }
-    .chart { width: 100%; height: ${CHART_HEIGHT}px; }
+    /* Card stretches to match its neighbour (e.g. the map); the chart takes all the height left under the title. */
+    section { height: 100%; display: flex; flex-direction: column; }
+    .chart { width: 100%; flex: 1 1 auto; min-height: ${CHART_HEIGHT}px; }
     .chart[hidden] { display: none; }
     .skel { height: ${CHART_HEIGHT}px; display: flex; align-items: flex-end; justify-content: space-around; padding-bottom: 3rem; }
   `
@@ -64,6 +65,8 @@ export class BarChartComponent {
   private readonly chart = signal<echarts.ECharts | null>(null);
   /** Chart width in px (tracked so name wrapping follows resizes). */
   private readonly width = signal(0);
+  /** Data last drawn — bars/areas only animate in when the data changes, not on a theme switch or resize. */
+  private drawn: unknown = null;
 
   /** Largest first, left to right. */
   protected readonly sorted = computed(() => [...this.rows()].sort((a, b) => b.beneficiaries - a.beneficiaries));
@@ -79,6 +82,12 @@ export class BarChartComponent {
         this.width.set(el.clientWidth);
       });
       resize.observe(el);
+      // Names under the bars are cut with "…"; hovering one opens that bar's tooltip, which has the full name.
+      instance.on('mouseover', { componentType: 'xAxis' }, (e) => {
+        const dataIndex = this.sorted().findIndex((r) => r.label === (e as { value?: string }).value);
+        if (dataIndex >= 0) instance.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex });
+      });
+      instance.on('mouseout', { componentType: 'xAxis' }, () => instance.dispatchAction({ type: 'hideTip' }));
       this.chart.set(instance);
       destroyRef.onDestroy(() => {
         resize.disconnect();
@@ -98,17 +107,21 @@ export class BarChartComponent {
       const muted = dark ? '#a1a1aa' : '#64748b';
       const grid = dark ? '#3f3f46' : '#e2e8f0';
       const surface = dark ? '#18181b' : '#ffffff';
+      const animate = data !== this.drawn;
+      this.drawn = data;
 
-      // Each column's slot width — names wrap within it (max 3 lines, then "…").
-      const band = Math.max(48, (width - 48) / data.length - 8);
+      // Each column's slot width — names stay on one line and end in "…" when longer; the tooltip has the full name.
+      // Leaves a clear gap (≥16px) between neighbouring names.
+      const band = Math.max(40, (width - 48) / data.length - 20);
       // Too narrow to wrap cleanly (phones): tilt names and truncate them; the tooltip has the full name.
       const slot = (width - 48) / data.length;
       const tilt = slot < 72 && data.some((r) => r.label.length * 6.5 > slot - 4);
 
       instance.setOption(
         {
+          animation: animate,
           animationDuration: 400,
-          grid: { left: 40, right: 8, top: 24, bottom: tilt ? 76 : 56, containLabel: false },
+          grid: { left: 40, right: 8, top: 24, bottom: tilt ? 76 : 32, containLabel: false },
           tooltip: {
             trigger: 'item',
             confine: true,
@@ -120,21 +133,12 @@ export class BarChartComponent {
           xAxis: {
             type: 'category',
             data: data.map((r) => r.label),
+            triggerEvent: true,
             axisTick: { show: false },
             axisLine: { lineStyle: { color: grid } },
             axisLabel: tilt
               ? { interval: 0, rotate: 40, color: ink, fontFamily: 'inherit', fontSize: 11, width: 84, overflow: 'truncate' }
-              : {
-                  interval: 0,
-                  color: ink,
-                  fontFamily: 'inherit',
-                  fontSize: 11,
-                  lineHeight: 14,
-                  width: band,
-                  height: 42,
-                  overflow: 'break',
-                  lineOverflow: 'truncate'
-                }
+              : { interval: 0, color: ink, fontFamily: 'inherit', fontSize: 11, width: band, overflow: 'truncate' }
           },
           yAxis: {
             type: 'value',

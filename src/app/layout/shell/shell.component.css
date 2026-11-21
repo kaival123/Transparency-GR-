@@ -64,13 +64,18 @@
   .menu-btn { display: inline-flex; }
 }
 
-/* Phones/small tablets: row 1 = menu, title, dark-mode; row 2 = accessibility tools, full width. */
-@media (max-width: 767.98px) {
-  .topbar { padding: 0.375rem 0.75rem 0.5rem; row-gap: 0.375rem; }
+/* Phones + tablets (≤ 1023px, no sidebar): row 1 = menu, logo, title … emblem on the right;
+   row 2 = accessibility tools, full width. */
+@media (max-width: 1023.98px) {
+  .topbar { padding: 0.375rem clamp(0.75rem, 2.2vw, 2rem) 0.5rem; row-gap: 0.375rem; }
   .topbar-actions { display: contents; }
   .header-tools { order: 10; flex-basis: 100%; justify-content: space-between; }
   .logo { width: 36px; height: 36px; }
   .topbar-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
   .spacer { display: none; }
   .emblem { height: 2rem; width: auto; }
+}
+/* Small phones: the full title wraps to two lines instead of being cut to "Government of Mahar…". */
+@media (max-width: 419.98px) {
+  .topbar-title { white-space: normal; line-height: 1.2; font-size: 13px; }
 }

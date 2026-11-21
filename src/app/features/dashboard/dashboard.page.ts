@@ -9,10 +9,11 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
 import { StatCardComponent } from '../../shared/components/stat-card/stat-card.component';
 import { reactiveLoad } from '../../shared/utils/async-state';
 import { BarChartComponent } from './bar-chart.component';
+import { DistrictMapComponent } from './district-map.component';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [PageHeaderComponent, FilterPanelComponent, StatCardComponent, BarChartComponent, ErrorStateComponent],
+  imports: [PageHeaderComponent, FilterPanelComponent, StatCardComponent, BarChartComponent, DistrictMapComponent, ErrorStateComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="app-stack">
@@ -23,8 +24,8 @@ import { BarChartComponent } from './bar-chart.component';
       @if (s.status !== 'error') {
         <div class="app-grid" role="region" [attr.aria-label]="t('dashboard.keyFigures')">
           <app-stat-card [label]="t('kpi.totalBeneficiaries')" icon="pi-users" [loading]="!d" [value]="d ? i18n.number(d.totalBeneficiaries) : ''" />
-          <app-stat-card [label]="t('kpi.disbursed')" icon="pi-indian-rupee" [loading]="!d"
-                         [value]="d ? i18n.currencyCompact(d.totalAmount) : ''" [hint]="d ? i18n.currency(d.totalAmount) : ''" />
+          <app-stat-card [label]="t('kpi.disbursed')" icon="pi-indian-rupee" badge="INR" [loading]="!d"
+                         [value]="d ? i18n.numberCompact(d.totalAmount) : ''" [hint]="d ? i18n.currency(d.totalAmount) : ''" />
           <app-stat-card [label]="t('kpi.schemes')" icon="pi-briefcase" [loading]="!d" [value]="d ? i18n.number(d.activeSchemes) : ''" />
           <app-stat-card [label]="t('kpi.districts')" icon="pi-map-marker" [loading]="!d" [value]="d ? i18n.number(d.districtsCovered) : ''" />
         </div>
@@ -37,7 +38,7 @@ import { BarChartComponent } from './bar-chart.component';
       } @else {
         <div class="widgets">
           <app-bar-chart [title]="t('dashboard.byScheme')" icon="pi-briefcase" [loading]="!d" [rows]="d?.byScheme ?? []" />
-          <app-bar-chart [title]="t('dashboard.byDistrict')" icon="pi-map" [loading]="!d" [rows]="d?.byDistrict ?? []" />
+          <app-district-map [title]="t('dashboard.byDistrict')" icon="pi-map" [loading]="!d" [rows]="d?.byDistrict ?? []" />
         </div>
       }
     </div>
@@ -46,7 +47,8 @@ import { BarChartComponent } from './bar-chart.component';
     .widgets {
       display: grid;
       gap: var(--app-gap);
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+      /* Side by side only when each chart gets ≥ 400px; otherwise stacked (tablets, phones). */
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
     }
   `
 })

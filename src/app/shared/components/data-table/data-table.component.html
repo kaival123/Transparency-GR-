@@ -15,10 +15,9 @@
   [showCurrentPageReport]="true"
   [currentPageReportTemplate]="pageReport()"
   [paginatorLocale]="i18n.locale()"
-  [tableStyle]="compact() ? undefined : { 'min-width': '40rem' }"
+  [tableStyle]="{ 'min-width': '40rem' }"
   [scrollable]="scrollBody()"
   [scrollHeight]="scrollBody() ? scrollHeight : undefined"
-  [class.stacked]="compact()"
   [attr.aria-busy]="loading()"
   [ariaLabel]="ariaLabel() || t('table.default')"
   stripedRows
@@ -89,11 +88,8 @@
               <app-status-badge [status]="display(row, col)" />
             } @else {
               <span class="cell">
-                <span [class.text-muted]="isEmpty(row, col)">{{ display(row, col) }}</span>
-                @if (isMasked(row, col)) {
-                  <i class="pi pi-lock masked" [pTooltip]="t('table.masked')" tabindex="0"
-                     [attr.aria-label]="t('table.masked')"></i>
-                }
+                <span [class.text-muted]="isEmpty(row, col)" [class.truncate]="col.truncate"
+                      [attr.title]="col.truncate ? display(row, col) : null">{{ display(row, col) }}</span>
               </span>
             }
           </td>

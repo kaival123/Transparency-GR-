@@ -62,13 +62,14 @@ h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
   gap: 0.5rem;
 }
 
-/* KPI grid, mobile-first and sized by the content area (not the viewport): 1 → 2 → 4 columns, never an orphan. */
+/* KPI grid, mobile-first and sized by the content area (not the viewport): 1 → 2 → 4 columns, never an orphan.
+   Two columns from phone width up — the stat card switches to a compact layout when narrow. */
 .app-grid {
   display: grid;
   gap: var(--app-gap);
   grid-template-columns: minmax(0, 1fr);
 }
-@container page (min-width: 440px) { .app-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container page (min-width: 300px) { .app-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container page (min-width: 900px) { .app-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 .app-stack { display: flex; flex-direction: column; gap: var(--app-gap); min-width: 0; container: page / inline-size; }
@@ -126,3 +127,55 @@ body { overflow-wrap: break-word; }
 html:root { --color-dark-blue-1: var(--p-primary-color); }
 /* Hide the widget's "Created by UX4G" footer link (its logo image fails to load); keep "Reset All Settings". */
 .copyrights-accessibility .copyright-text { display: none !important; }
+/* Widget's floating button: medium size (default is 70px), icon scaled to match. */
+#uw-widget-custom-trigger.uw-widget-custom-trigger {
+  width: 48px !important; height: 48px !important; min-width: 0 !important; min-height: 0 !important;
+  padding: 0 !important; justify-content: center !important; overflow: hidden;
+}
+/* Its text label is visually hidden (the button already has aria-label) so the icon can centre. */
+#uw-widget-custom-trigger.uw-widget-custom-trigger > span {
+  position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip-path: inset(50%) !important; white-space: nowrap !important;
+}
+#uw-widget-custom-trigger.uw-widget-custom-trigger img { width: 26px !important; height: 26px !important; flex: none; }
+
+/* Widget panel: portal theme tokens instead of its fixed white / grey-blue / lilac, so it follows the
+   theme swatch and light/dark mode. ID-scoped to out-rank the widget's own class rules. */
+#uw-main.uwaw { background: var(--app-card); color: var(--app-text); }
+/* Header bar is the theme colour, so its title uses that colour's contrast text. */
+#uw-main #uw-heading { color: var(--p-primary-contrast-color, #ffffff); }
+#uw-main .uwaw-body { background: var(--app-bg); }
+#uw-main .uwaw-features__item__i { background: var(--app-card); border-color: var(--app-border); }
+#uw-main .uwaw-features__item__name { color: var(--app-text); }
+#uw-main .ux4g-icon { background-color: var(--p-primary-color); }
+#uw-main .uwaw-features__step { background: color-mix(in srgb, var(--p-primary-color) 25%, transparent); }
+#uw-main button:is(:hover, :focus) { background-color: color-mix(in srgb, var(--p-primary-color) 8%, var(--app-card)); }
+#uw-main .btn-reset-all { background-color: color-mix(in srgb, var(--p-primary-color) 14%, var(--app-card)); color: var(--app-text); }
+#uw-main .btn-reset-all:is(:hover, :focus) { background-color: color-mix(in srgb, var(--p-primary-color) 22%, var(--app-card)); }
+#uw-main .reset-icon { background-color: var(--p-primary-color); }
+/* Close "×" is a dark image; lighten it on the dark theme. */
+.app-dark #uw-main .uwaw-close { filter: invert(1); }
+/* Selected feature tile: theme tint + ring instead of the widget's fixed blue glow; filled steps use the theme colour
+   (the plain .uwaw-features__step rule above would otherwise out-rank the widget's .active fill). */
+#uw-main .feature-active .uwaw-features__item__i {
+  background: color-mix(in srgb, var(--p-primary-color) 10%, var(--app-card));
+  border-color: var(--p-primary-color);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--p-primary-color) 18%, transparent);
+}
+#uw-main .feature-active .uwaw-features__item__name { color: var(--p-primary-color); }
+#uw-main .uwaw-features__step.active { background: var(--p-primary-color); }
+/* Selected-tile tick: the widget's SVG has fill='' (= black), which paints a black dot inside the tick's bend.
+   Same tick, with fill='none'. */
+#uw-main .uwaw-features__item__enabled {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8' width='100%25' height='100%25'%3E%3Cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.75' d='m1.5 4.5 2 2 5-5'/%3E%3C/svg%3E");
+}
+
+/* Popup menus (e.g. the Download menu): hovered / keyboard-focused item uses a theme tint, not PrimeNG's grey. */
+.p-menu {
+  --p-menu-item-focus-background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
+  --p-menu-item-focus-color: var(--p-primary-color);
+  --p-menu-item-icon-focus-color: var(--p-primary-color);
+}
+
+/* Closed widget panel: the widget parks it at a fixed right: -530px, but on phones the panel is full-width,
+   so a strip stayed on screen (and its buttons stayed in the Tab order). Hidden unless open (open = inline right: 0). */
+#uw-main:not([style*="right: 0"]) { visibility: hidden; }

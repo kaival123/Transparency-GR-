@@ -111,17 +111,16 @@ export const EN = {
   'col.amount': 'Amount Disbursed',
   'col.status': 'Status',
   'col.name': 'Beneficiary Name',
-  'col.id': 'Beneficiary / Application ID',
-  'col.schemeYear': 'Scheme & Financial Year',
-  'col.location': 'Village, Taluka, District',
+  'col.id': 'Application ID',
   'col.benefitAmount': 'Benefit Amount',
-  'col.period': 'Benefit Date / Period',
+  'col.period': 'Last Updated Date',
 
   // Directory
   'directory.rowAction': 'View beneficiaries of this scheme',
 
   // Export (aggregate data only)
-  'export.excel': 'Excel',
+  'export.download': 'Download',
+  'export.excel': 'Excel (CSV)',
   'export.pdf': 'PDF',
   'export.excelAria': 'Export to Excel (CSV)',
   'export.pdfAria': 'Export to PDF',

@@ -12,9 +12,9 @@
 :host ::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th { background: var(--app-card); }
 :host ::ng-deep :is(.p-datatable-thead > tr > th, .p-datatable-tbody > tr > td) { border-color: var(--app-border); }
 
-/* Desktop/tablet: one line per cell; the table scrolls sideways (only when it's wider than the card). */
+/* Every size, phones included: one line per cell; the table scrolls sideways when it's wider than the card. */
 :host ::ng-deep .p-datatable-table-container { overflow-x: auto; }
-:host ::ng-deep p-table:not(.stacked) :is(.p-datatable-thead > tr > th, .p-datatable-tbody > tr > td) { white-space: nowrap; }
+:host ::ng-deep p-table :is(.p-datatable-thead > tr > th, .p-datatable-tbody > tr > td) { white-space: nowrap; }
 :host ::ng-deep .p-paginator { padding: 0.5rem 0 0; }
 
 .toolbar {
@@ -42,7 +42,10 @@
 
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
-.cell { display: inline-flex; align-items: center; gap: 0.4rem; }
+.cell { display: inline-flex; align-items: center; gap: 0.4rem; max-width: 100%; }
+
+/* Long values (e.g. scheme names) stay on one line and end in "…"; the full text is in the title tooltip. */
+.truncate { display: inline-block; max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; }
 
 tr.clickable { cursor: pointer; transition: background var(--app-transition); }
 tr.clickable:hover td { background: color-mix(in srgb, var(--p-primary-color) 6%, transparent); }
@@ -50,49 +53,10 @@ tr.clickable:focus-visible { outline: 2px solid var(--p-primary-color); outline-
 
 .masked { font-size: 0.75rem; color: var(--app-muted); }
 
-/* ---------- Phones (≤ 640px): each row becomes a labelled card ---------- */
+/* ---------- Phones (≤ 640px): same table, scrolled sideways; toolbar controls go full width ---------- */
 @media (max-width: 640px) {
   .toolbar-left, .toolbar-right { width: 100%; }
   .toolbar-left p-iconfield, .toolbar-left input { width: 100%; }
   .toolbar-right > * { flex: 1 1 auto; }
 }
 
-.stacked ::ng-deep .p-datatable-thead { display: none; }
-
-.stacked ::ng-deep .p-datatable-table,
-.stacked ::ng-deep .p-datatable-tbody { display: block; width: 100%; }
-
-.stacked ::ng-deep .p-datatable-header { padding-inline: 0; }
-
-.stacked tr {
-  display: block;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--app-border);
-}
-
-.stacked ::ng-deep .p-datatable-tbody > tr > td { padding: 0.3rem 0.25rem; }
-
-.stacked td {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 0.3rem 0.25rem;
-  border: 0;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-
-.stacked td[data-label]::before {
-  content: attr(data-label);
-  flex: 0 0 42%;
-  text-align: left;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--app-muted);
-}
-
-/* First column (the row's title) reads as the card heading. */
-.stacked td[data-label]:first-child { font-weight: 600; }
-
-.stacked td:not([data-label]) { display: block; text-align: center; }

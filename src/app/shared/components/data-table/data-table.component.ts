@@ -33,6 +33,8 @@ export interface TableColumn<T> {
   emptyText?: string;
   /** Boolean field on the row; when true a lock icon explains the value is masked. */
   maskedFlag?: keyof T & string;
+  /** Cut long values to one line with an ellipsis; the full text shows on hover. */
+  truncate?: boolean;
 }
 
 export interface PageChange {
@@ -55,7 +57,7 @@ export class DataTableComponent<T extends object> implements OnInit {
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
 
-  /** Phones: rows become stacked cards and the paginator is simplified. */
+  /** Phones: the table keeps its rows and columns (it scrolls sideways); only the paginator is simplified. */
   protected readonly compact = toSignal(
     inject(BreakpointObserver).observe('(max-width: 640px)').pipe(map((r) => r.matches)),
     { initialValue: false }
@@ -150,7 +152,8 @@ export class DataTableComponent<T extends object> implements OnInit {
   protected display(row: T, col: TableColumn<T>): string {
     const v = row[col.field];
     if (v === null || v === undefined || v === '') return col.emptyText ?? '—';
-    if (col.type === 'currency' && typeof v === 'number') return this.i18n.currency(v);
+    // Amounts show without the ₹ sign (plain grouped number, whole rupees).
+    if (col.type === 'currency' && typeof v === 'number') return this.i18n.number(Math.round(v));
     if (col.type === 'number' && typeof v === 'number') return this.i18n.number(v);
     if (col.type === 'status') return String(v);
     return String(v);

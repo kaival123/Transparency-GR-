@@ -16,6 +16,10 @@ export const formatCurrency = (value: number, locale = 'en-IN') =>
 export const formatCurrencyCompact = (value: number, locale = 'en-IN') =>
   get(`curc|${locale}`, () => new Intl.NumberFormat(locale, { style: 'currency', currency: 'INR', notation: 'compact', maximumFractionDigits: 1 })).format(value);
 
+/** Compact number without a currency sign (e.g. "79.3L"), for when the currency is labelled separately. */
+export const formatCompact = (value: number, locale = 'en-IN') =>
+  get(`numc|${locale}`, () => new Intl.NumberFormat(locale, { notation: 'compact', maximumFractionDigits: 1 })).format(value);
+
 export const formatCount = (value: number, locale = 'en-IN') =>
   get(`num|${locale}`, () => new Intl.NumberFormat(locale)).format(value);
 
@@ -23,6 +27,12 @@ export const formatCount = (value: number, locale = 'en-IN') =>
 export const formatMonthYear = (yyyyMm: string, locale = 'en-IN') => {
   const [y, m] = yyyyMm.split('-').map(Number);
   return get(`my|${locale}`, () => new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric' })).format(new Date(y, (m || 1) - 1, 1));
+};
+
+/** "2025-04-07" → "07-04-25" (DD-MM-YY), in the locale's digits ("०७-०४-२५"). Empty input stays empty. */
+export const formatDateShort = (isoDate: string, locale = 'en-IN') => {
+  const [y, m, d] = (isoDate ?? '').split('-');
+  return y && m && d ? localizeDigits(`${d.padStart(2, '0')}-${m.padStart(2, '0')}-${y.slice(-2)}`, locale) : '';
 };
 
 /** Converts ASCII digits inside text (e.g. "2024-25") to the locale's digits ("२०२४-२५"). */

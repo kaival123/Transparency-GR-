@@ -4,6 +4,7 @@ import { PreferencesService } from '../services/preferences.service';
 import {
   formatCount,
   formatCurrency,
+  formatCompact,
   formatCurrencyCompact,
   formatMonthYear,
   localizeDigits
@@ -59,6 +60,7 @@ export class I18nService {
   readonly number = (value: number) => formatCount(value, this.locale());
   readonly currency = (value: number) => formatCurrency(value, this.locale());
   readonly currencyCompact = (value: number) => formatCurrencyCompact(value, this.locale());
+  readonly numberCompact = (value: number) => formatCompact(value, this.locale());
   readonly monthYear = (yyyyMm: string) => formatMonthYear(yyyyMm, this.locale());
   readonly digits = (text: string) => localizeDigits(text, this.locale());
 

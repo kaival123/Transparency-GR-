@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { ExportService } from '../../core/services/export.service';
 import { FilterStateService } from '../../core/services/filter-state.service';
@@ -15,7 +17,7 @@ import { reactiveLoad } from '../../shared/utils/async-state';
 
 @Component({
   selector: 'app-directory-page',
-  imports: [PageHeaderComponent, FilterPanelComponent, DataTableComponent, ErrorStateComponent, ButtonModule],
+  imports: [PageHeaderComponent, FilterPanelComponent, DataTableComponent, ErrorStateComponent, ButtonModule, MenuModule, TooltipModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="app-stack">
@@ -37,10 +39,12 @@ import { reactiveLoad } from '../../shared/utils/async-state';
             [rowActionLabel]="t('directory.rowAction')"
             (rowClick)="openBeneficiaries($event)">
             <div tableActions class="actions">
-              <p-button [label]="t('export.excel')" icon="pi pi-file-excel" severity="secondary" [outlined]="true" size="small"
-                        [disabled]="!rows().length" (onClick)="exportCsv()" [ariaLabel]="t('export.excelAria')" />
-              <p-button [label]="t('export.pdf')" icon="pi pi-file-pdf" severity="secondary" [outlined]="true" size="small"
-                        [disabled]="!rows().length" (onClick)="exportPdf()" [ariaLabel]="t('export.pdfAria')" />
+              <!-- One download button; its menu offers the formats. -->
+              <p-button icon="pi pi-download" size="small"
+                        [disabled]="!rows().length" (onClick)="downloadMenu.toggle($event)"
+                        [ariaLabel]="t('export.download')" [pTooltip]="t('export.download')" tooltipPosition="top"
+                        aria-haspopup="menu" />
+              <p-menu #downloadMenu [model]="downloadItems()" [popup]="true" appendTo="body" />
             </div>
           </app-data-table>
         }
@@ -63,6 +67,12 @@ export class DirectoryPage {
     const s = this.data.state();
     return s.status === 'success' ? s.data : [];
   });
+
+  /** Formats offered by the download button. */
+  protected readonly downloadItems = computed<MenuItem[]>(() => [
+    { label: this.t('export.excel'), icon: 'pi pi-file-excel', title: this.t('export.excelAria'), command: () => this.exportCsv() },
+    { label: this.t('export.pdf'), icon: 'pi pi-file-pdf', title: this.t('export.pdfAria'), command: () => this.exportPdf() }
+  ]);
 
   protected readonly columns = computed<TableColumn<SchemeDirectoryRow>[]>(() => [
     { field: 'scheme', header: this.t('col.scheme'), hideable: false },

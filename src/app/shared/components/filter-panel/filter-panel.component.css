@@ -50,3 +50,18 @@
 .field small { font-size: 0.75rem; color: var(--app-muted); }
 .field small.error { color: var(--p-red-500); }
 .w-full { width: 100%; }
+
+/* Phones: the heading is a full-width toggle for the fields. */
+.toggle {
+  flex: 1; min-width: 0;
+  border: 0; background: none; font: inherit; color: inherit; cursor: pointer; text-align: left;
+  border-radius: 6px;
+}
+/* No border after a tap or click; keyboard focus gets a soft tint instead of an outline. */
+.toggle:focus { outline: none; }
+.toggle:focus-visible { background: color-mix(in srgb, var(--p-primary-color) 10%, transparent); }
+.title-text { font-weight: 600; }
+/* Same colour as the label; the thin glyph sits ~1px high in its box, so nudge it onto the text's centre line. */
+.chevron { font-size: 0.75rem; color: inherit; transform: translateY(1px); margin-left: -0.125rem; }
+.fields[hidden] { display: none; }
+.panel:has(.fields[hidden]) { padding-bottom: 0.75rem; }
